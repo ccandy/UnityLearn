@@ -15,7 +15,6 @@ public class ProjectileController : MonoBehaviour
     #endregion
 
     
-    public event OutOfBoundHandler projectileOutOfBound;
 
     #region Movement
 
@@ -31,12 +30,7 @@ public class ProjectileController : MonoBehaviour
 
         if (ScreenBounds.OutOfBounds(transform.position))
         {
-            if (projectileOutOfBound != null)
-            {
-                projectileOutOfBound();
-            }
-
-            
+            EventBroker.CallProjectileOutOfBounds();
             Destroy(gameObject);
         }
     }

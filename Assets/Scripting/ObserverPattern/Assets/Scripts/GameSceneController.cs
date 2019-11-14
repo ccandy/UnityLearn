@@ -34,8 +34,43 @@ public class GameSceneController : MonoBehaviour
 
     #endregion
 
+
+    #region Subject Implementation
+
+    private List<IEndGameObserver> _endGameObservers;
+    public void AddObserver(IEndGameObserver observer)
+    {
+        if(_endGameObservers != null)
+        {
+            _endGameObservers.Add(observer);
+        }
+    }
+
+    public void RemoveObserver(IEndGameObserver observer)
+    {
+        if (_endGameObservers != null)
+        {
+            _endGameObservers.Remove(observer);
+        }
+    }
+
+    public void NotifyObservers()
+    {
+        foreach(IEndGameObserver obs in _endGameObservers)
+        {
+            obs.Notify();
+        }
+    }
+
+    #endregion
+
+
     #region Startup
 
+    private void Awake()
+    {
+        _endGameObservers = new List<IEndGameObserver>();
+    }
     void Start()
     {
         StartLevel(currentLevelIndex);
@@ -100,6 +135,11 @@ public class GameSceneController : MonoBehaviour
         if(lives > 0)
         {
             StartCoroutine(SpawnShip(true));
+        }
+        else
+        {
+            StopAllCoroutines();
+            NotifyObservers();
         }
 
     }

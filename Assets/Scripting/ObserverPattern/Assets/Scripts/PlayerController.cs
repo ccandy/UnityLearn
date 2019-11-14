@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
         _gameSceneController = FindObjectOfType<GameSceneController>();
         _gameSceneController.ScoreUpdate += _gameSceneController_ScoreUpdate;
         shieldTimeOut = new WaitForSeconds(shieldDuration);
+        EventBroker.ProjectileOutOfBounds += EnableProjectile;
         EnableShield();
     }
 
@@ -100,8 +101,6 @@ public class PlayerController : MonoBehaviour
         projectile.isPlayers = true;
         projectile.projectileSpeed = 4;
         projectile.projectileDirection = Vector2.up;
-        projectile.projectileOutOfBound += EnableProjectile;
-
         DisableProjectile();
 
     }
@@ -141,7 +140,11 @@ public class PlayerController : MonoBehaviour
     {
         yield return shieldTimeOut;
         shield.SetActive(false);
-        
+    }
+
+    private void OnDisable()
+    {
+        EventBroker.ProjectileOutOfBounds -= EnableProjectile;
     }
 
     #endregion

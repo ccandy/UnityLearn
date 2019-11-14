@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PowerupController :MonoBehaviour
+public class PowerupController :MonoBehaviour,IEndGameObserver
 {
     #region Field Declarations
 
@@ -37,6 +37,11 @@ public class PowerupController :MonoBehaviour
        //TODO: Apply Power ups
        
        Destroy(gameObject);
+    }
+
+    public void Notify()
+    {
+        Destroy(gameObject);
     }
 
     #endregion
