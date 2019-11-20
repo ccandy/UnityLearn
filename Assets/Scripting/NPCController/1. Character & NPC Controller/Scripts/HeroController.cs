@@ -13,4 +13,10 @@ public class HeroController : MonoBehaviour
     }
 
 
+    private void Update()
+    {
+
+        animator.SetFloat("Speed", agent.velocity.magnitude);
+    }
+
 }
